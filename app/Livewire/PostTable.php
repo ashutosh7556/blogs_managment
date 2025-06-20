@@ -1,63 +1,56 @@
 <?php
 
-namespace App\Livewire;
+ namespace App\Livewire;
 
-use App\Models\Post;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
-use Rappasoft\LaravelLivewireTables\Views\Column;
+ use App\Models\Post;
+ use Illuminate\Database\Eloquent\Builder;
+ use Illuminate\Support\Facades\Auth;
+ use Rappasoft\LaravelLivewireTables\DataTableComponent;
+ use Rappasoft\LaravelLivewireTables\Views\Column;
 
-class PostTable extends DataTableComponent
-{
-    /** Quick way to tell the table which model to use */
-    protected $model = Post::class;
+ class PostTable extends DataTableComponent
+ {
+     protected $model = Post::class;
 
-    /** OPTIONAL table options */
-    public function configure(): void
-    {
-        $this->setPrimaryKey('id')
-            ->setDefaultSort('created_at', 'desc');
-    }a
+     public function configure(): void
+     {
+         $this->setPrimaryKey('id')
+              ->setDefaultSort('created_at', 'desc');
+     }
 
-    /** Column definitions */
-    public function columns(): array
-    {
-        return [
-            Column::make('Title', 'title')
-                ->sortable()
-                ->searchable(),
+     public function builder(): Builder
+     {
+         return Post::query()
+             ->with('category')
+             ->when(
+                 ! Auth::user()->hasRole('admin'),
+                 fn ($q) => $q->where('user_id', Auth::id())
+             );
+     }
 
-            Column::make('Category', 'category.name')
-                ->sortable(),
+     public function columns(): array
+     {
+         return [
+             Column::make('Title', 'title')
+                   ->sortable()->searchable(),
 
-            Column::make('Created', 'created_at')
-                ->sortable()
-                ->format(fn($value) => $value->diffForHumans()),
+             Column::make('Content', 'content')
+                   ->sortable()->searchable(),
 
-            Column::make('Actions')
-                ->label(fn($row) => view('components.post-actions', ['post' => $row])),
-        ];
-    }
-}
+             Column::make('Category', 'category.name')
+                   ->sortable(),
 
+             Column::make('Created', 'created_at')
+                   ->sortable()
+                   ->format(fn ($v) => optional($v)->diffForHumans()),
 
-
-
-
-
-
-
-
-
-
-//
-//namespace App\Livewire;
-//
-//use Livewire\Component;
-//
-//class PostTable extends Component
-//{
-//    public function render()
-//    {
-//        return view('livewire.post-table');
-//    }
-//}
+              Column::make('Actions')
+                  ->label(fn (Post $row) =>
+                      view('livewire.post-actions', [
+                          'post' => $row,
+                      ])->render()
+                  )
+                  ->html()
+         ];
+     }
+ }

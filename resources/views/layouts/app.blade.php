@@ -1,62 +1,64 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+ <!DOCTYPE html>
+ <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+ <head>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', 'Dashboard')</title>
+     <title>@yield('title', 'Dashboard')</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+     <!-- Fonts -->
+     <link rel="preconnect" href="https://fonts.bunny.net">
+     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Styles & Scripts -->
-    @livewireStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+     <!-- Styles -->
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <style>
-        body {
-            background: linear-gradient(to right top, #dfe9f3, #ffffff);
-        }
-    </style>
-</head>
+     <!-- Livewire Styles (must come AFTER vite for Alpine injection to work) -->
+     @livewireStyles
 
-<body class="font-sans antialiased text-gray-900">
+     <style>
+         body {
+             background: linear-gradient(to right top, #dfe9f3, #ffffff);
+         }
+     </style>
+ </head>
 
-{{-- Navigation --}}
-@include('layouts.navigation')
+ <body class="font-sans antialiased text-gray-900">
 
-{{-- Page Header --}}
-<header class="bg-white/80 backdrop-blur-lg shadow-lg rounded-b-2xl mb-8">
-    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-800">
-            @hasSection('header')
-            @yield('header')
-            @elseif (isset($header))
-            {{ $header }}
-            @endif
-        </h1>
+     {{-- Navigation --}}
+     @include('layouts.navigation')
 
-        @hasSection('action')
-        <div>@yield('action')</div>
-        @endif
-    </div>
-</header>
+     {{-- Page Header --}}
+     <header class="bg-white/80 backdrop-blur-lg shadow-lg rounded-b-2xl mb-8">
+         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+             <h1 class="text-3xl font-bold text-gray-800">
+                 @hasSection('header')
+                     @yield('header')
+                 @elseif (isset($header))
+                     {{ $header }}
+                 @endif
+             </h1>
 
-{{-- Page Content --}}
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-    @hasSection('content')
-    @yield('content')
-    @else
-    {{ $slot ?? '' }}
-    @endif
-</main>
+             @hasSection('action')
+                 <div>@yield('action')</div>
+             @endif
+         </div>
+     </header>
 
-{{-- Livewire Scripts --}}
-@livewireScriptConfig
-@livewireScripts
-</body>
+     {{-- Page Content --}}
+     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+         @hasSection('content')
+             @yield('content')
+         @else
+             {{ $slot ?? '' }}
+         @endif
+     </main>
 
-</html>
+     {{-- Livewire Scripts --}}
+     @livewireScripts
+     @livewireScriptConfig
+ </body>
+
+ </html>

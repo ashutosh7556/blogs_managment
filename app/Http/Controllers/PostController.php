@@ -29,13 +29,13 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'contents' => 'required|string',
+            'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
 
         Post::create([
             'title' => $validated['title'],
-            'contents' => $validated['contents'],
+            'content' => $validated['content'],
             'category_id' => $validated['category_id'],
             'user_id' => auth()->id(),
         ]);
@@ -62,12 +62,12 @@ class PostController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'contents' => 'required|string',
+            'content' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
 
         $post->title = $request->title;
-        $post->contents = $request->contents;
+        $post->content = $request->content;
         $post->category_id = $request->category_id;
         $post->save();
 

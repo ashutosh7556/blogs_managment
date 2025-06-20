@@ -1,20 +1,16 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
-@section('title', 'Post Manager')
+ @section('content')
+ <div class="max-w-5xl mx-auto py-8">
+     <div class="flex items-center justify-between mb-6">
+         <h1 class="text-3xl font-semibold">Post Manager</h1>
+         <a href="{{ route('posts.create') }}"
+            class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700">
+             + New Post
+         </a>
+     </div>
 
-@section('header')
-🗂 Post Manager
-@endsection
+ @livewire('post-table')
 
-@section('content')
-@if(auth()->user()->hasRole('Admin') || auth()->user()->hasRole('Author'))
-<div class="d-flex justify-content-end mb-4">
-    <a href="{{ route('posts.create') }}" class="btn btn-primary">
-        ➕ Create Post
-    </a>
-</div>
-@endif
-
-<livewire:post-table />
-
+ </div>
  @endsection

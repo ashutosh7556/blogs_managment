@@ -1,0 +1,31 @@
+The alpines problem like
+:-$wire not define
+:-multiple alpines
+:-settable not define etc..
+
+Solution for that :-we were  using Livewire Tables v3, but parts of your setup were based on instructions or assumptions from v2, which is not compatible with the v3 structure.
+The Livewire Tables v3 package relies on automatic asset injection, not manual imports like before.
+
+
+1. Wrong JS import path (v2 path used)	You added this to resources/js/app.js:
+:-import '../../vendor/rappasoft/laravel-livewire-tables/resources/js/laravel-livewire-tables.js';
+
+
+2 Assets not being injected by package	In config/livewire-tables.php, the asset flags were either missing or false:
+
+:-  php<br>'inject_core_assets_enabled' => false,<br>'inject_third_party_assets_enabled' => false<br>
+  (this is inside the config->livewire-table.php)
+:-This stopped Livewire Tables from loading the necessary JS helper file.
+
+3. Two Alpines loaded	You were likely loading Alpine twice:
+ – Once from Livewire
+ – Once manually or via another package
+ This broke $wire, caused <x-data> not to work, and gave the warning: “Detected multiple instances of Alpine running”	Alpine directives failed. Nothing reactive worked.
+
+
+______________________________________________________________________________________________
+Finding the issues in code by terminal
+bash
+>tail -n 100 storage/logs/laravel.log
+
+

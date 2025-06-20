@@ -1,80 +1,90 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>BlogNest</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <meta name="description" content="BlogNest - Your daily dose of fresh stories, ideas, and insights." />
-    </head>
-    <body class="bg-gray-100 text-gray-800 antialiased">
-    <div class="min-h-screen flex flex-col">
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>BlogNest</title>
+   <meta name="description"
+         content="BlogNest – Your daily dose of fresh stories, ideas, and insights." />
 
-        <!-- Navbar -->
-        <nav class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                <a href="/" class="text-2xl font-bold text-gray-800 hover:text-red-500 transition">BlogNest</a>
-                <div class="space-x-4">
-                    <a href="/login" class="text-gray-700 hover:text-red-500 font-medium transition">Login</a>
-                    <a href="/register" class="text-gray-700 hover:text-red-500 font-medium transition">Register</a>
-                </div>
-            </div>
-        </nav>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+         rel="stylesheet">
+ </head>
 
-        <!-- Hero Section -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-16 px-6 text-center">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Welcome to BlogNest</h1>
-                <p class="mt-4 text-lg text-gray-600">Your daily dose of fresh stories, ideas, and insights.</p>
-                <a href="#blogs" class="mt-6 inline-block bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 transition">Explore Blogs</a>
-            </div>
-        </header>
+ <body class="bg-light">
 
-        <!-- Blog Grid -->
-        <main id="blogs" class="flex-1 py-12 px-6">
-            <div class="max-w-7xl mx-auto">
-                <h2 class="text-2xl font-semibold mb-6 text-center md:text-left">Latest Posts</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+     <div class="container">
+       <a class="navbar-brand fw-bold text-dark" href="/">BlogNest</a>
+       <div>
+         <a href="/login"    class="btn btn-outline-secondary me-2">Login</a>
+         <a href="/register" class="btn btn-danger text-white">Register</a>
+       </div>
+     </div>
+   </nav>
 
-                    <!-- Blog Card Component -->
-                    <article class="bg-white rounded-lg shadow hover:shadow-2xl transition overflow-hidden">
-                        <img src="https://source.unsplash.com/600x400/?nature,water" alt="Nature blog cover" class="w-full h-48 object-cover" />
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold">The Beauty of Nature</h3>
-                            <p class="text-gray-600 mt-2">Explore the healing powers of natural environments and their impact on well-being.</p>
-                            <a href="#" class="inline-block mt-4 text-red-500 hover:underline">Read more →</a>
-                        </div>
-                    </article>
+   <header class="bg-white py-5 text-center border-bottom">
+     <div class="container">
+       <h1 class="display-5 fw-bold">Welcome to BlogNest</h1>
+       <p class="lead text-muted">Your daily dose of fresh stories, ideas, and insights.</p>
+       </div>
+   </header>
 
-                    <article class="bg-white rounded-lg shadow hover:shadow-2xl transition overflow-hidden">
-                        <img src="https://source.unsplash.com/600x400/?technology,code" alt="Technology blog cover" class="w-full h-48 object-cover" />
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold">Top 10 Laravel Tips</h3>
-                            <p class="text-gray-600 mt-2">Boost your productivity with these practical Laravel development tips.</p>
-                            <a href="#" class="inline-block mt-4 text-red-500 hover:underline">Read more →</a>
-                        </div>
-                    </article>
+   <main class="py-5">
+     <div class="container">
+       <h2 class="mb-4 text-center">Latest Posts</h2>
+       <div class="row g-4">
 
-                    <article class="bg-white rounded-lg shadow hover:shadow-2xl transition overflow-hidden">
-                        <img src="https://source.unsplash.com/600x400/?writing,notebook" alt="Writing blog cover" class="w-full h-48 object-cover" />
-                        <div class="p-6">
-                            <h3 class="text-xl font-semibold">Writing as Therapy</h3>
-                            <p class="text-gray-600 mt-2">Discover how expressive writing can improve mental clarity and health.</p>
-                            <a href="#" class="inline-block mt-4 text-red-500 hover:underline">Read more →</a>
-                        </div>
-                    </article>
+         <div class="col-md-6 col-lg-4">
+           <div class="card h-100 shadow-sm">
+             <img src="https://source.unsplash.com/600x400/?nature,water"
+                  class="card-img-top" alt="Nature" loading="lazy">
+             <div class="card-body">
+               <h5 class="card-title">The Beauty of Nature</h5>
+               <p class="card-text text-muted">
+                 Discover the healing power of natural environments on well-being.
+               </p>
+               <a href="#" class="btn btn-sm btn-outline-danger">Read more →</a>
+             </div>
+           </div>
+         </div>
 
-                </div>
-            </div>
-        </main>
+         <div class="col-md-6 col-lg-4">
+           <div class="card h-100 shadow-sm">
+             <img src="https://source.unsplash.com/600x400/?technology,code"
+                  class="card-img-top" alt="Technology" loading="lazy">
+             <div class="card-body">
+               <h5 class="card-title">Top 10 Laravel Tips</h5>
+               <p class="card-text text-muted">
+                 Boost your productivity with these essential Laravel tips.
+               </p>
+               <a href="#" class="btn btn-sm btn-outline-danger">Read more →</a>
+             </div>
+             </div>
+         </div>
 
-        <!-- Footer -->
-        <footer class="bg-white shadow mt-12">
-            <div class="max-w-7xl mx-auto py-6 px-6 text-center text-sm text-gray-500">
-                &copy; 2025 <strong>BlogNest</strong>. All rights reserved.
-            </div>
-        </footer>
+         <div class="col-md-6 col-lg-4">
+           <div class="card h-100 shadow-sm">
+             <img src="https://source.unsplash.com/600x400/?writing,notebook"
+                  class="card-img-top" alt="Writing" loading="lazy">
+             <div class="card-body">
+               <h5 class="card-title">Writing as Therapy</h5>
+               <p class="card-text text-muted">
+                 Explore how writing can enhance mental clarity and health.
+               </p>
+               <a href="#" class="btn btn-sm btn-outline-danger">Read more →</a>
+             </div>
+           </div>
+         </div>
 
-    </div>
-    </body>
-    </html>
+       </div>
+     </div>
+   </main>
+
+   <footer class="bg-white border-top py-4 text-center text-muted">
+     &copy; 2025 <strong>BlogNest</strong>. All rights reserved.
+   </footer>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ </body>
+ </html>
