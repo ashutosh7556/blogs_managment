@@ -8,16 +8,18 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        if (auth()->user()->hasRole('admin')) {
-            $posts = Post::with('category', 'user')->latest()->get();
-        } else {
-            $posts = Post::with('category')->where('user_id', auth()->id())->latest()->get();
-        }
+      public function index()
+      {
+          // Admins and authors should see ALL posts
+          if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('author')) {
+              $posts = Post::with('category', 'user')->latest()->get();
+          } else {
+              $posts = Post::with('category', 'user')->latest()->get();
+          }
 
-        return view('posts.index', compact('posts'));
-    }
+          return view('posts.index', compact('posts'));
+      }
+
 
     public function create()
     {

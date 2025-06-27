@@ -34,54 +34,28 @@
      <div class="container">
        <h2 class="mb-4 text-center">Latest Posts</h2>
        <div class="row g-4">
-
-         <div class="col-md-6 col-lg-4">
-           <div class="card h-100 shadow-sm">
-             <img src="https://source.unsplash.com/600x400/?nature,water"
-                  class="card-img-top" alt="Nature" loading="lazy">
-             <div class="card-body">
-               <h5 class="card-title">The Beauty of Nature</h5>
-               <p class="card-text text-muted">
-                 Discover the healing power of natural environments on well-being.
-               </p>
-               <a href="#" class="btn btn-sm btn-outline-danger">Read more →</a>
+         @foreach ($posts as $post)
+           <div class="col-md-6 col-lg-4">
+             <div class="card h-100 shadow-sm border-0">
+               <div class="card-header text-white" style="background-color: #a2d5f2;">
+                 <h5 class="card-title mb-0">{{ $post->title }}</h5>
+               </div>
+               <div class="card-body" style="background-color: #f0f8ff;">
+                 <p class="card-text text-muted">
+                   {{ \Illuminate\Support\Str::limit($post->content, 20) }}
+                 </p>
+                 <a href="{{ route('posts.show', $post) }}" class="btn btn-sm btn-outline-primary">Read more →</a>
+               </div>
              </div>
            </div>
-         </div>
 
-         <div class="col-md-6 col-lg-4">
-           <div class="card h-100 shadow-sm">
-             <img src="https://source.unsplash.com/600x400/?technology,code"
-                  class="card-img-top" alt="Technology" loading="lazy">
-             <div class="card-body">
-               <h5 class="card-title">Top 10 Laravel Tips</h5>
-               <p class="card-text text-muted">
-                 Boost your productivity with these essential Laravel tips.
-               </p>
-               <a href="#" class="btn btn-sm btn-outline-danger">Read more →</a>
-             </div>
-             </div>
-         </div>
-
-         <div class="col-md-6 col-lg-4">
-           <div class="card h-100 shadow-sm">
-             <img src="https://source.unsplash.com/600x400/?writing,notebook"
-                  class="card-img-top" alt="Writing" loading="lazy">
-             <div class="card-body">
-               <h5 class="card-title">Writing as Therapy</h5>
-               <p class="card-text text-muted">
-                 Explore how writing can enhance mental clarity and health.
-               </p>
-               <a href="#" class="btn btn-sm btn-outline-danger">Read more →</a>
-             </div>
-           </div>
-         </div>
-
+         @endforeach
        </div>
      </div>
    </main>
 
-   <footer class="bg-white border-top py-4 text-center text-muted">
+
+    <footer class="bg-white border-top py-4 text-center text-muted fixed-bottom">
      &copy; 2025 <strong>BlogNest</strong>. All rights reserved.
    </footer>
 

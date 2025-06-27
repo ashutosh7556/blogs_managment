@@ -27,5 +27,68 @@ ________________________________________________________________________________
 Finding the issues in code by terminal
 bash
 >tail -n 100 storage/logs/laravel.log
+>................................................................................................................................................................ ~ 0s
+Solve the table structre
+>php artisan optimize:clearar
+ php artisan view:clear
+ php artisan livewire:publish --assets
+
+
+____________________________________________________________________________________________________________________________
+What is the EventserviceProivder:=>
+An event represents something that just happened in your application. For example:
+:-A user logged in
+:-A new user registered
+:-A blog post was published
+
+And the listner:=>
+:- listener is a piece of logic (a class or method) that runs in response to that event.
+
+Process:->
+step:1- Basic Structure
+>app/Providers/EventServiceProvider.php (its avialable inside the Provider)
+
+step:2- Steps to Create & Use Events and Listeners
+>php artisan make:event OrderPlaced
+
+step:3-. Register in EventServiceProvider
+>protected $listen = [
+     App\Events\OrderPlaced::class => [
+         App\Listeners\SendOrderConfirmation::class,
+     ],
+ ];
+
+
+step:4-. Dispatch the Event
+>event(new OrderPlaced($order));
+
+----------------------------------------------------------------------------------------------------------------------------------
+What is Spatie Permission in Laravel?
+:-Spatie Laravel-Permission is a package that helps you control what users can do in your Laravel app — using roles and permissions.
+Imagine a blog app with three types of users:
+
+👑 Admin – can do everything (edit users, delete posts, manage categories)
+
+✍️ Author – can create and edit their own posts
+
+👀 Viewer – can only view posts
+
+Process :-
+step:1-Installation & Setup Process
+>composer require spatie/laravel-permission
+
+step:2-. Publish the Configuration & Migrations
+>php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+
+step:3- Run the Migrations
+>php artisan migrate
+
+this creates :->
+:-roles
+:-permissions
+:-model_has_roles
+:-model_has_permissions
+:-role_has_permissions
+____________________________________________________________________________________________________________________________________________
 
 

@@ -7,24 +7,32 @@
 @endsection
 
 @section('content')
- @if(auth()->user()->hasRole('admin'))
- <div class="bg-gradient-to-r from-blue-50 to-white p-6 rounded-2xl shadow-md border border-blue-100 mb-6">
-     <h2 class="text-xl font-bold text-blue-800 mb-4">🛠 Admin Tools</h2>
-     <ul class="list-disc pl-6 text-blue-700 space-y-1">
-         <li>
-             <a href="{{ route('posts.index') }}" class="hover:underline hover:text-blue-900">
-                 Manage Posts
-             </a>
-         </li>
-         <li>
-             <a href="{{ route('categories.index') }}" class="hover:underline hover:text-blue-900">
-                 Manage Categories
-             </a>
-         </li>
-         <li><span class="text-gray-500">Manage Users (Coming Soon)</span></li>
-     </ul>
- </div>
- @endif
+  @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('author'))
+      <div class="bg-gradient-to-r from-blue-50 to-white p-6 rounded-2xl shadow-md border border-blue-100 mb-6">
+          <h2 class="text-xl font-bold text-blue-800 mb-4">🛠 Management Tools</h2>
+          <ul class="list-disc pl-6 text-blue-700 space-y-1">
+              <li>
+                  <a href="{{ route('posts.index') }}" class="hover:underline hover:text-blue-900">
+                      Manage Posts
+                  </a>
+              </li>
+              <li>
+                  <a href="{{ route('categories.index') }}" class="hover:underline hover:text-blue-900">
+                      Manage Categories
+                  </a>
+              </li>
+              @if(auth()->user()->hasRole('admin'))
+                  <li>
+                      <a href="{{ route('admin.users.index') }}" class="hover:underline hover:text-blue-900">
+                          Manage User Roles
+                      </a>
+                  </li>
+
+              @endif
+          </ul>
+      </div>
+  @endif
+
 
 <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-100 mb-6">
     <h2 class="text-2xl font-semibold text-gray-800 mb-2">👋 Welcome, {{ auth()->user()->name }}!</h2>

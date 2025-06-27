@@ -1,22 +1,42 @@
 <?php
 
-namespace App\Http\Controllers;
+ namespace App\Http\Controllers;
 
-use App\Models\Role;
-use App\Models\User;
-use Illuminate\Http\Request;
+ use App\Models\User;
+ use Illuminate\Http\Request;
+ use Spatie\Permission\Models\Role;
 
-class UserController extends Controller
-{
+ class UserController extends Controller
+ {
+     public function index()
+     {
+         $users = User::with('roles')->get(); // Fetch users with their roles
+         $roles = Role::all(); // Fetch all roles
 
-    public function assignRole($userId, $roleName)
-    {
-        $user = User::findOrFail($userId);
-        $role = Role::where('name', $roleName)->firstOrFail();
+         return view('users.index', compact('users', 'roles'));
+     }
 
-        // Attach role
-        $user->roles()->syncWithoutDetaching([$role->id]);
+     public function assignRole(Request $request, $userId)
+     {
+         $request->validate([
+             'roleName' => 'required|string|exists:roles,name',
+         ]);
 
-        return redirect()->back()->with('success', 'Role assigned successfully.');
-    }
-}
+         $user = User::findOrFail($userId);
+
+         // Prevent changing role if the target user is an admin
+         if ($user->hasRole('admin')) {
+             return redirect()->back()->with('error', 'You cannot change the role of an admin user.');
+         }
+
+         // Optional: prevent assigning 'admin' role
+         if ($request->roleName === 'admin') {
+             return redirect()->back()->with('error', 'You cannot assign the admin role.');
+         }
+
+         $user->syncRoles([$request->roleName]);
+
+         return redirect()->back()->with('success', 'Role assigned successfully.');
+     }
+
+ }

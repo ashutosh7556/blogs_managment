@@ -1,54 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ $post->title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <title>{{ $post->title }}</title>
+     <script src="https://cdn.tailwindcss.com"></script>
+     <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+     <style>
+         body {
+             background-color: #f3f4f6;
+             font-family: 'Handlee', cursive;
+         }
 
-    <style>
-        body {
-            background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
-            min-height: 100vh;
-            padding: 40px;
-            font-family: 'Segoe UI', sans-serif;
-        }
+         .notebook-paper {
+             background: repeating-linear-gradient(
+                 to bottom,
+                 #ffffff,
+                 #ffffff 24px,
+                 #cbd5e0 25px
+             );
+             position: relative;
+         }
 
-        .post-container {
-            max-width: 800px;
-            margin: auto;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+         .notebook-paper::before {
+             content: "";
+             position: absolute;
+             left: 40px;
+             top: 0;
+             bottom: 0;
+             width: 2px;
+             background: #ef4444; /* red margin line */
+         }
+     </style>
+ </head>
+ <body class="py-12 px-4 sm:px-6 lg:px-8">
 
-        .post-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
+      <div class="max-w-3xl mx-auto shadow-lg border border-gray-300 rounded-lg overflow-hidden notebook-paper p-10 relative">
+          <!-- Post Title -->
+          <h1 class="text-3xl font-bold text-gray-800 mb-4 pl-12">
+              {{ $post->title }}
+          </h1>
 
-        .post-category {
-            font-style: italic;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-        }
+          <!-- Category -->
+          <p class="italic text-sm text-gray-600 mb-6 pl-12">
+              Category: {{ $post->category->name }}
+          </p>
 
-        .post-content {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #34495e;
-        }
-    </style>
-</head>
-<body>
+          <!-- Post Content -->
+          <div class="text-gray-800 text-lg leading-loose whitespace-pre-line pl-12">
+              {!! nl2br(e($post->content)) !!}
+          </div>
+      </div>
 
-<div class="post-container">
-    <h1 class="post-title">{{ $post->title }}</h1>
-    <p class="post-category">Category: {{ $post->category->name }}</p>
-    <p class="post-content">{{ $post->contents }}</p>
-</div>
 
-</body>
-</html>
+ </body>
+ </html>

@@ -44,11 +44,11 @@
             <label for="contents" class="form-label">Content</label>
             <textarea
                 id="contents"
-                name="contents"
+                name="content"
                 class="form-control"
                 rows="5"
                 required
-            >{{ old('contents', $post->contents) }}</textarea>
+            >{{ old('content', $post->content) }}</textarea>
         </div>
 
         <!-- Category -->
