@@ -1,3 +1,4 @@
+ @if(auth()->user()->hasRole('admin'))
  <div class="flex space-x-2 items-center">
      <a
          href="{{ route('categories.edit', $category->id) }}"
@@ -18,3 +19,4 @@
          </button>
      </form>
  </div>
+@endif

@@ -15,6 +15,7 @@
      <!-- Styles -->
      @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+
      <!-- Livewire Styles (must come AFTER vite for Alpine injection to work) -->
      @livewireStyles
 

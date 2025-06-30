@@ -1,4 +1,5 @@
 <?php
+
  namespace App\Http\Controllers;
 
  use App\Models\Post;
@@ -11,15 +12,14 @@
      {
          $user = auth()->user();
 
-         if ($user->hasRole('admin')) {
-             $totalPosts = Post::count();
-             $totalCategories = Category::count();
-             $roles = Role::withCount('users')->get();
-         } else {
-             $totalPosts = Post::where('user_id', $user->id)->count();
-             $totalCategories = Category::count(); // Optional: you can also limit categories shown if needed
-             $roles = null;
-         }
+         // Everyone sees total post & category count
+         $totalPosts = Post::count();
+         $totalCategories = Category::count();
+
+         // Only admin sees role breakdown
+         $roles = $user->hasRole('admin')
+             ? Role::withCount('users')->get()
+             : null;
 
          return view('dashboard', compact('totalPosts', 'totalCategories', 'roles'));
      }

@@ -10,15 +10,28 @@ class PostController extends Controller
 {
       public function index()
       {
-          // Admins and authors should see ALL posts
-          if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('author')) {
+          if (auth()->user()->hasRole('admin')) {
+              // Admins see everything
               $posts = Post::with('category', 'user')->latest()->get();
+
+          } elseif (auth()->user()->hasRole('author')) {
+              // Authors see their own posts
+              $posts = Post::with('category', 'user')
+                           ->where('user_id', auth()->id())
+                           ->latest()
+                           ->get();
+
           } else {
-              $posts = Post::with('category', 'user')->latest()->get();
+              // Viewers see only published posts
+              $posts = Post::with('category', 'user')
+                           ->where('status', 'published') // Assuming you have a 'status' column
+                           ->latest()
+                           ->get();
           }
 
           return view('posts.index', compact('posts'));
       }
+
 
 
     public function create()

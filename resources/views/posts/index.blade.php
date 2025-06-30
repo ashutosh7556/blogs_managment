@@ -1,23 +1,39 @@
  @extends('layouts.app')
 
  @section('content')
- <div class="max-w-5xl mx-auto py-8">
-     <div class="flex items-center justify-between mb-6">
-         <h1 class="text-3xl font-semibold text-gray-800">Post Manager</h1>
+ <div class="max-w-6xl mx-auto py-8 px-4" x-data="{ showForm: false }">
 
-         @can('create', App\Models\Post::class)
-             <a href="{{ route('posts.create') }}"
-                class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm">
-                 + New Post
-             </a>
-         @endcan
+     <div class="flex justify-between items-center mb-6">
+         <h1 class="text-2xl font-semibold text-gray-800">Post Manager</h1>
+
+         <button @click="showForm = !showForm"
+                 class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700 transition">
+             <span x-text="showForm ? 'Back to Table' : '+ New Post'"></span>
+         </button>
      </div>
 
-     <div class="w-full flex justify-center">
-         <div class="w-full max-w-7xl bg-white border border-gray-200 rounded-lg shadow-sm p-4">
-             @livewire('post-table')
-         </div>
+     {{-- Form --}}
+     <div x-show="showForm" x-transition class="mb-6">
+         @livewire('post-form', [], key('form-create'))
+     </div>
+
+     {{-- Table --}}
+     <div x-show="!showForm" x-transition>
+         @livewire('post-table')
      </div>
 
  </div>
+
+ <script>
+     Livewire.on('post-created', () => {
+         // Hide form after saving
+         document.querySelector('[x-data]').__x.$data.showForm = false;
+     });
+
+     Livewire.on('editPost', (postId) => {
+         // Remount form with postId
+         Livewire.emit('mount', postId);
+         document.querySelector('[x-data]').__x.$data.showForm = true;
+     });
+ </script>
  @endsection

@@ -11,6 +11,7 @@
  class PostTable extends DataTableComponent
  {
      protected $model = Post::class;
+     protected $listeners = ['postCreated' => '$refresh'];
 
      public function configure(): void
      {
