@@ -17,7 +17,10 @@
      {{-- Navbar --}}
      <nav class="bg-white shadow-md py-4">
          <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-             <a href="/" class="text-2xl font-bold text-gray-800">BlogNest</a>
+              <a href="/" class="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 text-transparent bg-clip-text hover:opacity-80 transition">
+                  BlogNest
+              </a>
+
              <div class="space-x-3">
                  <a href="/login" class="px-4 py-2 border border-gray-400 text-gray-800 rounded-md hover:bg-gray-100 transition">Login</a>
                  <a href="/register" class="px-4 py-2 bg-purple-700 text-white rounded-md hover:bg-purple-800 transition">Register</a>
@@ -42,46 +45,18 @@
 
                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                    @foreach ($posts as $post)
-                       @php
-                           // Define a base URL for random blog images from Unsplash
-                           $unsplashBaseUrl = 'https://source.unsplash.com/random/600x400?blog,';
-
-                           // Generate a unique keyword for the Unsplash image based on the post title
-                           // This helps in getting slightly different images for each post
-                           $unsplashKeyword = urlencode(Str::slug($post->title, '-'));
-
-                           // Construct the fallback URL
-                           $fallbackImageUrl = $unsplashBaseUrl . $unsplashKeyword;
-
-                           // Determine the final image URL:
-                           // If $post->image_url is a valid URL, use it.
-                           // Otherwise, use the Unsplash fallback.
-                           $imageUrl = filter_var($post->image_url, FILTER_VALIDATE_URL)
-                                       ? $post->image_url
-                                       : $fallbackImageUrl;
-                       @endphp
-
                        <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col">
-                           <img
-                               src="{{ $imageUrl }}"
-                               alt="{{ $post->title ?? 'Blog post image' }}" {{-- Provide a generic fallback for alt text --}}
-                               class="w-full h-48 object-cover"
-                               loading="lazy" {{-- Good for performance, defers loading of off-screen images --}}
-                               onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400?text=Image+Unavailable';" {{-- Enhanced error fallback --}}
-                           >
+                           <div class="bg-indigo-100 text-indigo-800 font-semibold text-center py-8 px-4 text-xl tracking-wide uppercase">
+                               {{ $post->title }}
+                           </div>
 
                            <div class="p-6 flex flex-col flex-1">
-                               <h3 class="text-xl font-semibold text-gray-800 mb-2 truncate"
-                                   title="{{ $post->title }}"> {{-- Add title attribute for full title on hover --}}
-                                   {{ $post->title }}
-                               </h3>
-
                                <p class="text-gray-600 text-sm mb-4 flex-grow leading-relaxed">
                                    {{ \Illuminate\Support\Str::limit($post->content, 20) }}
                                </p>
 
                                <a href="{{ route('posts.show', $post) }}"
-                                  class="inline-flex items-center text-indigo-600 font-medium hover:underline mt-auto">
+                                   class="inline-flex items-center text-indigo-600 font-medium hover:underline mt-auto">
                                    Read more
                                    <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -93,6 +68,7 @@
                </div>
            </div>
        </main>
+
 
 
 

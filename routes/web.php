@@ -9,6 +9,7 @@
  use App\Http\Controllers\UserController;
  use App\Http\Controllers\HomeController;
  use App\Livewire\PostForm; // 👈 Livewire component for create/edit
+ use App\Http\Controllers\FeedbackController;
 
  // 🏠 Public homepage
  Route::get('/', [HomeController::class, 'index']);
@@ -40,14 +41,17 @@
  });
 
  // ✍️ Admin + Author: full CRUD (Livewire for create/edit)
- Route::middleware(['auth', 'role:admin,author'])->group(function () {
-     // Post index, store, update, delete (controller)
-     Route::resource('posts', PostController::class)->except(['show', 'create', 'edit']);
 
-     // Post create & edit handled by Livewire (same component for both)
-     Route::get('/posts/create', PostForm::class)->name('posts.create');
-     Route::get('/posts/{postId}/edit', PostForm::class)->name('posts.edit');
- });
+    Route::middleware(['auth', 'role:admin,author'])->group(function () {
+        // Posts: index, store, update, delete via controller
+        Route::resource('posts', PostController::class)->except(['show', 'create', 'edit']);
+
+        // Posts: create & edit via Livewire
+        Route::get('/posts/create', PostForm::class)->name('posts.create');
+        Route::get('/posts/{postId}/edit', PostForm::class)->name('posts.edit');
+
+
+    });
 
  // 👁️ All authenticated users can view individual posts
  Route::middleware(['auth'])->group(function () {
@@ -59,3 +63,13 @@
      Route::get('/read-posts', [PublicController::class, 'index'])->name('read-posts.index');
      Route::get('/read-posts/{post}', [PublicController::class, 'show'])->name('read-posts.show');
  });
+
+
+//for feedback
+// Admin & author feedback inbox
+Route::middleware(['auth', 'role:admin,author'])->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
+});
+
+// Feedback submission by any authenticated user
+Route::middleware('auth')->post('/posts/{post}/feedback', [FeedbackController::class, 'store'])->name('feedback.store');

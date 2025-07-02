@@ -40,29 +40,41 @@ class PostController extends Controller
         return view('posts.create', compact('categories'));
     }
 
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
-        ]);
+     public function store(Request $request)
+     {
+         $validated = $request->validate([
+             'title' => 'required|string|max:255',
+             'content' => 'required|string',
+             'category_id' => 'required|exists:categories,id',
+             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+         ]);
 
-        Post::create([
-            'title' => $validated['title'],
-            'content' => $validated['content'],
-            'category_id' => $validated['category_id'],
-            'user_id' => auth()->id(),
-        ]);
+         $imagePath = null;
+         if ($request->hasFile('image')) {
+             $imagePath = $request->file('image')->store('posts', 'public');
+         }
 
-        return redirect()->route('posts.index')->with('success', 'Post created successfully!');
-    }
+         Post::create([
+             'title' => $validated['title'],
+             'content' => $validated['content'],
+             'category_id' => $validated['category_id'],
+             'user_id' => auth()->id(),
+             'image' => $imagePath,
+         ]);
+
+         return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+     }
+
 
     public function show(Post $post)
     {
         $this->authorize('view', $post);
+
+        $post->load('feedback.user');
+
         return view('posts.show', compact('post'));
     }
+
 
     public function edit(Post $post)
     {

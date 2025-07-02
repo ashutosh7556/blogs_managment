@@ -4,23 +4,31 @@
 
  use App\Models\Post;
  use App\Models\Category;
- use Spatie\Permission\Models\Role;
+ use App\Models\Role; // ← your custom Role model
 
  class DashboardController extends Controller
  {
      public function __invoke()
      {
-         $user = auth()->user();
-
-         // Everyone sees total post & category count
          $totalPosts = Post::count();
          $totalCategories = Category::count();
 
-         // Only admin sees role breakdown
-         $roles = $user->hasRole('admin')
-             ? Role::withCount('users')->get()
-             : null;
+         $total = $totalPosts + $totalCategories;
 
-         return view('dashboard', compact('totalPosts', 'totalCategories', 'roles'));
+         // Avoid division by zero
+         $postPercent = $total > 0 ? round(($totalPosts / $total) * 100, 1) : 0;
+         $categoryPercent = $total > 0 ? round(($totalCategories / $total) * 100, 1) : 0;
+
+         // Load roles with number of users in each
+         $roles = Role::withCount('users')->get();
+
+
+         return view('dashboard', compact(
+             'totalPosts',
+             'totalCategories',
+             'postPercent',
+             'categoryPercent',
+             'roles'
+         ));
      }
  }

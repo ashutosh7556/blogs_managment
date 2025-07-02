@@ -10,7 +10,7 @@ class Post extends Model
     use HasFactory;
 
     protected $table = "posts";
-    protected $fillable = ['title', 'content','user_id', 'category_id',];
+    protected $fillable = ['title', 'content','user_id', 'category_id','image', ];
 
 
     public function user()
@@ -22,4 +22,9 @@ class Post extends Model
     {
         return $this->belongsTo(Category::class);
     }
+ public function feedback()
+ {
+     return $this->hasMany(Feedback::class);
+ }
+
 }

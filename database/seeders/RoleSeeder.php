@@ -1,30 +1,34 @@
 <?php
 
-namespace Database\Seeders;
+ namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Role;
+ use Illuminate\Database\Seeder;
+ use Spatie\Permission\Models\Role;
 
-class RoleSeeder extends Seeder
+ class RoleSeeder extends Seeder
+ {
+
+public function run(): void
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        Role::insert([
-            [
-                'name'  => 'admin',
-                'label' => 'Administrator',
-            ],
-            [
-                'name'  => 'author',
-                'label' => 'Content Author',
-            ],
-            [
-                'name'  => 'viewer',
-                'label' => 'Read-Only User',
-            ],
-        ]);
-    }
+    Role::whereIn('name', ['admin', 'author', 'viewer'])->delete(); // 👈 safer
+
+    Role::insert([
+        [
+            'name'       => 'admin',
+            'label'      => 'Administrator',
+            'guard_name' => 'web',
+        ],
+        [
+            'name'       => 'author',
+            'label'      => 'Content Author',
+            'guard_name' => 'web',
+        ],
+        [
+            'name'       => 'viewer',
+            'label'      => 'Read-Only User',
+            'guard_name' => 'web',
+        ],
+    ]);
 }
+
+ }

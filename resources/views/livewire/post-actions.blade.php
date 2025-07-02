@@ -6,10 +6,10 @@
 
  {{-- Edit link: Only visible if user can update --}}
  @can('update', $post)
-     <a href="{{ route('posts.edit', $post->id) }}"
-        class="text-blue-500 hover:underline mr-2">
-         Edit
-     </a>
+      <a href="{{ route('posts.edit', $post->id) }}" class="text-blue-500 hover:underline mr-2">
+          ✏️ Edit
+      </a>
+
  @endcan
 
  {{-- Delete form: Only visible if user can delete --}}
