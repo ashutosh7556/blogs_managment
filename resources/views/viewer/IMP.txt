@@ -93,3 +93,42 @@ ________________________________________________________________________________
   // DEBUG: Show what's in $roles
          dd($roles);
 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+//providing the role for admin by tinker (its usable beacuse if we want to provide role directly from the php tinker )
+
+>php artisan tinker
+
+2>Find the user
+>$user = \App\Models\User::where('email', 'skyllect.ashu7556@gmail.com')->first();
+
+3>Ensure the admin role exists:
+>use Spatie\Permission\Models\Role;
+ Role::firstOrCreate(['name' => 'admin']);
+
+4>Assign the admin role to the user:
+>$user->assignRole('admin');
+
+5>Remove if other is exist
+>$user->syncRoles(['admin'])  ->its save only admin;
+
+5>Verify role assignment:
+>$user->getRoleNames(); // Should show ['admin']
+
+------
+
+today i solve th error of role_count
+:- Deleted old custom roles and role_user tables
+:-the spatie permission its have already the model_has_role
+:-Updated your User model:
+  :-Added HasRoles trait
+
+ created roles using tinker
+ >Spatie\Permission\Models\Role::create(['name' => 'admin']);
+
+Assign the roles
+>$user = App\Models\User::first();
+ $user->assignRole('admin');
+
+ ___________
+

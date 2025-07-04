@@ -64,12 +64,12 @@
      Route::get('/read-posts/{post}', [PublicController::class, 'show'])->name('read-posts.show');
  });
 
+ // 📨 Admin & Author: feedback inbox, view, delete
+ Route::middleware(['auth', 'role:admin,author'])->group(function () {
+     Route::resource('feedback', FeedbackController::class)->only(['index', 'show', 'destroy']);
+ });
 
-//for feedback
-// Admin & author feedback inbox
-Route::middleware(['auth', 'role:admin,author'])->group(function () {
-    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback.index');
-});
+ // 📝 Feedback submission by any authenticated user
+ Route::middleware('auth')->post('/posts/{post}/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
-// Feedback submission by any authenticated user
-Route::middleware('auth')->post('/posts/{post}/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+

@@ -15,11 +15,18 @@
      @livewireStyles
  </head>
      <body class="font-sans antialiased text-gray-800 bg-gradient-to-br from-indigo-100 via-white to-blue-100 min-h-screen">
- @if(session('success'))
-                 <div class="bg-green-100 text-green-700 p-2 rounded mb-4">
-                     {{ session('success') }}
-                 </div>
-             @endif
+  @if(session('success'))
+      <div
+          x-data="{ show: true }"
+          x-init="setTimeout(() => show = false, 3000)"
+          x-show="show"
+          x-transition
+          class="bg-green-100 text-green-700 p-3 rounded mb-4"
+      >
+          {{ session('success') }}
+      </div>
+  @endif
+
      <!-- Wrapper Flex -->
      <div class="flex min-h-screen">
 

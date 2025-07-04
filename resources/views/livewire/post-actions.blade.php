@@ -7,7 +7,7 @@
  {{-- Edit link: Only visible if user can update --}}
  @can('update', $post)
       <a href="{{ route('posts.edit', $post->id) }}" class="text-blue-500 hover:underline mr-2">
-          ✏️ Edit
+           Edit
       </a>
 
  @endcan
@@ -19,7 +19,8 @@
            class="inline">
          @csrf
          @method('DELETE')
-         <button type="submit"
+
+          <button type="submit"
                  onclick="return confirm('Are you sure you want to delete this post?')"
                  class="text-red-500 hover:underline">
              Delete

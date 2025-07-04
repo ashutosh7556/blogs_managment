@@ -13,12 +13,15 @@
              <h2 class="text-2xl font-semibold text-gray-800 mb-1">
                  👋 Welcome, {{ auth()->user()->name }}!
              </h2>
-             <p class="text-gray-600 text-sm">
-                 You are logged in as:
-                 <span class="font-medium text-indigo-600">
-                     {{ auth()->user()->roles->pluck('name')->implode(', ') }}
-                 </span>
-             </p>
+             @auth
+                 <p class="text-gray-600 text-sm">
+                     You are logged in as:
+                     <span class="font-medium text-indigo-600">
+                         {{ auth()->user()->getRoleNames()->implode(', ') }}
+                     </span>
+                 </p>
+             @endauth
+
          </div>
 
 
