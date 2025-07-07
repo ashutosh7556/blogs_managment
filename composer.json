@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
+        "predis/predis": "^3.0",
         "rappasoft/laravel-livewire-tables": "^3.0@beta",
         "spatie/laravel-permission": "^6.20"
     },

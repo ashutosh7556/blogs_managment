@@ -10,6 +10,9 @@
  use App\Http\Controllers\HomeController;
  use App\Livewire\PostForm; // 👈 Livewire component for create/edit
  use App\Http\Controllers\FeedbackController;
+ use App\Events\MessageSent;
+ use Illuminate\Support\Facades\Redis;
+ use App\Http\Controllers\MessageController;
 
  // 🏠 Public homepage
  Route::get('/', [HomeController::class, 'index']);
@@ -73,3 +76,10 @@
  Route::middleware('auth')->post('/posts/{post}/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chat', function () {
+        return view('chat');
+    });
+
+    Route::post('/send-message', [MessageController::class, 'send']);
+});
