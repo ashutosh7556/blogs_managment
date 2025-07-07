@@ -74,12 +74,17 @@
 
  // 📝 Feedback submission by any authenticated user
  Route::middleware('auth')->post('/posts/{post}/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+ Route::middleware('auth')->delete('/feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('feedback.destroy');
+
 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/chat', function () {
         return view('chat');
-    });
+    })->name("user_chat");
 
     Route::post('/send-message', [MessageController::class, 'send']);
+
+    // ✅ ADD THIS
+    Route::get('/messages', [MessageController::class, 'fetch']);
 });

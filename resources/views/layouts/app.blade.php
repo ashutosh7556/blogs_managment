@@ -39,7 +39,8 @@
                   <a href="{{ route('dashboard') }}" class="block py-2 px-4 rounded hover:bg-gray-800">🏠 Dashboard</a>
                   <a href="{{ route('posts.index') }}" class="block py-2 px-4 rounded hover:bg-gray-800">📝 Manage Posts</a>
                   <a href="{{ route('categories.index') }}" class="block py-2 px-4 rounded hover:bg-gray-800">📂 Manage Categories</a>
-                   <a href="{{ route('feedback.index') }}" class="block py-2 px-4 rounded hover:bg-gray-800">📝Massages</a>
+                   <a href="{{ route('feedback.index') }}" class="block py-2 px-4 rounded hover:bg-gray-800">📩Massages</a>
+                    <a href="{{ route('user_chat') }}" class="block py-2 px-4 rounded hover:bg-gray-800">💬ChatBox</a>
                   @if(auth()->user()->hasRole('admin'))
                       <a href="{{ route('admin.users.index') }}" class="block py-2 px-4 rounded hover:bg-gray-800">👥 Manage Users</a>
                   @endif

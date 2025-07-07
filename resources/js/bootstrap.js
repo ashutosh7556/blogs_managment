@@ -7,11 +7,28 @@
 import axios from 'axios';
 window.axios = axios;
 
+
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+
+import Echo from 'laravel-echo';
+import io from 'socket.io-client';
+
+window.io = io;
+
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: 'http://127.0.0.1:6001',
+    transports: ['websocket'],
+    forceTLS: false,
+    disableStats: true
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
+ * for events that are broadc
+ ast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
 
