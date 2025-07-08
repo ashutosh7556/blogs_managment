@@ -34,4 +34,9 @@ BROADCAST_DRIVER=redis
 CACHE_DRIVER=redis
 QUEUE_CONNECTION=redis
 
+@Cheaking the status of websoket is working or not :-
+>Echo.connector.socket.connected
+>false
+
+________________________________________________________________________________________________________________________________________________________________________
 

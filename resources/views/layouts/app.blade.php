@@ -27,11 +27,10 @@
       </div>
   @endif
 
+
+ @if(auth()->user()->hasAnyRole(['admin', 'author']))
      <!-- Wrapper Flex -->
      <div class="flex min-h-screen">
-
-
-
           <!-- ✅ Sidebar -->
           <div :class="sidebarOpen ? 'w-64' : 'w-0'" class="transition-all duration-300 overflow-hidden bg-gray-900 shadow-lg text-white">
               <div class="p-6 space-y-3">
@@ -46,30 +45,49 @@
                   @endif
               </div>
           </div>
-
+@endif
 
          <!-- ✅ Main Content with Navbar -->
          <div class="flex-1 flex flex-col transition-all duration-300">
 
              <!-- Navbar -->
-             <nav class="bg-white border-b border-gray-200 px-4 py-4 shadow-sm">
-                 <div class="flex justify-between items-center">
-                     <!-- Menu Button -->
-                     <button @click="sidebarOpen = !sidebarOpen"
-                             class="text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 rounded-md">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                             <path stroke-linecap="round" stroke-linejoin="round"
-                                   d="M4 6h16M4 12h16M4 18h16"/>
-                         </svg>
-                     </button>
+              <nav class="bg-white border-b border-gray-200 px-4 py-4 shadow-sm">
+                  <div class="flex justify-between items-center">
+                      <!-- Left Section: Hamburger + Manage Posts -->
+                      <div class="flex items-center space-x-4">
+                          @if(auth()->user()->hasAnyRole(['admin', 'author']))
+                              <!-- Menu Button -->
+                              <button @click="sidebarOpen = !sidebarOpen"
+                                      class="text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 rounded-md">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                       viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M4 6h16M4 12h16M4 18h16"/>
+                                  </svg>
+                              </button>
 
-                     <!-- Right Side -->
-                     <div class="hidden sm:flex sm:items-center space-x-4">
-                         @include('layouts.navigation')
-                     </div>
-                 </div>
-             </nav>
+                              <!-- Manage Posts Link -->
+                              <a href="{{ route('home') }}" class="flex items-center gap-1 text-gray-700 hover:text-blue-600 transition duration-300">
+                                  <svg xmlns="http://www.w3.org/2000/svg"
+                                       class="h-7 w-7 text-red-500 animate-home-spin"
+                                       fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 12l9-9 9 9M4 12v8a1 1 0 001 1h4a1 1 0 001-1v-5h4v5a1 1 0 001 1h4a1 1 0 001-1v-8" />
+                                  </svg>
+
+                              </a>
+
+
+                          @endif
+                      </div>
+
+                      <!-- Right Side -->
+                      <div class="hidden sm:flex sm:items-center space-x-4">
+                          @include('layouts.navigation')
+                      </div>
+                  </div>
+              </nav>
+
 
              <!-- Main Page Content -->
              <main class="p-6 bg-gray-50 min-h-screen">
@@ -92,3 +110,14 @@
      @stack('scripts')
  </body>
  </html>
+ <style>
+ @keyframes home-spin {
+   0%   { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+ }
+
+ .animate-home-spin {
+   animation: home-spin 2s linear infinite;
+ }
+ </style>
+

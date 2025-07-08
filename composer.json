@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "predis/predis": "^3.0",
+        "pusher/pusher-php-server": "^7.2",
         "rappasoft/laravel-livewire-tables": "^3.0@beta",
         "spatie/laravel-permission": "^6.20"
     },
@@ -66,6 +67,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }

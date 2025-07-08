@@ -12,6 +12,7 @@
                 </div>
 
 
+   @if(auth()->user()->hasAnyRole(['admin', 'author']))
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -20,6 +21,7 @@
                     </x-nav-link>
                 </div>
             </div>
+        @endif
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -66,6 +68,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
