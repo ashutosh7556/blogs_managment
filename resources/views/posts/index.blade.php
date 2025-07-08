@@ -25,14 +25,21 @@
  </div>
 
  <!-- Alpine + Livewire Sync -->
- <script>
-     Livewire.on('post-created', () => {
-         document.querySelector('[x-data]').__x.$data.showForm = false;
-     });
+  <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          if (typeof Livewire !== 'undefined') {
+              Livewire.on('post-created', () => {
+                  document.querySelector('[x-data]').__x.$data.showForm = false;
+              });
 
-     Livewire.on('editPost', (postId) => {
-         Livewire.emit('mount', postId);
-         document.querySelector('[x-data]').__x.$data.showForm = true;
-     });
- </script>
+              Livewire.on('editPost', (postId) => {
+                  Livewire.emit('mount', postId);
+                  document.querySelector('[x-data]').__x.$data.showForm = true;
+              });
+          } else {
+              console.warn('Livewire is not defined — script skipped.');
+          }
+      });
+  </script>
+
  @endsection

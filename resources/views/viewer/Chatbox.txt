@@ -38,5 +38,8 @@ QUEUE_CONNECTION=redis
 >Echo.connector.socket.connected
 >false
 
+@Starting The Echo system in Websocket
+>laravel-echo-server start
+
 ________________________________________________________________________________________________________________________________________________________________________
 

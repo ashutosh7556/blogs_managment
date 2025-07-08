@@ -67,6 +67,12 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "beta",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/musonza/laravel-websockets"
+        }
+    ]
 }
