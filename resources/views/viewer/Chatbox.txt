@@ -34,12 +34,28 @@ BROADCAST_DRIVER=redis
 CACHE_DRIVER=redis
 QUEUE_CONNECTION=redis
 
-@Cheaking the status of websoket is working or not :-
+#Cheaking the status of websoket is working or not :-
 >Echo.connector.socket.connected
 >false
 
 @Starting The Echo system in Websocket
 >laravel-echo-server start
+
+#I Just getting the Error of not displaying Message in real-time means until i refresh then message display
+Solution:-
+>in MessageController
+> event(new MessageSent($message)); // fires immediately
+
+>In javascript
+>window.Echo.channel('chat')
+     .listen('.message.sent', (e) => {
+         console.log('✅ Received message from Echo:', e);
+
+         // Trigger a browser event to pass the message to the Blade frontend
+         window.dispatchEvent(new CustomEvent('new-chat-message', { detail: e }));
+     });
+
+>
 
 ________________________________________________________________________________________________________________________________________________________________________
 
