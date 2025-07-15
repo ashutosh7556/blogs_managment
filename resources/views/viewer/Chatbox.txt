@@ -24,20 +24,6 @@ High lavel flow of chat system
 4-Node.js + Socket.io picks up the events and pushes into the client
 5-All Connected users instantly see the new message
 
-
-Step-by-Step: Simple Chat with Laravel + Socket.IO
-1. 🧱 Install Laravel + Setup Broadcast
->composer require predis/predis
-
-In .env:
-BROADCAST_DRIVER=redis
-CACHE_DRIVER=redis
-QUEUE_CONNECTION=redis
-
-#Cheaking the status of websoket is working or not :-
->Echo.connector.socket.connected
->false
-
 @Starting The Echo system in Websocket
 >laravel-echo-server start
 
@@ -45,7 +31,6 @@ QUEUE_CONNECTION=redis
 Solution:-
 >in MessageController
 > event(new MessageSent($message)); // fires immediately
-
 >In javascript
 >window.Echo.channel('chat')
      .listen('.message.sent', (e) => {
@@ -55,7 +40,82 @@ Solution:-
          window.dispatchEvent(new CustomEvent('new-chat-message', { detail: e }));
      });
 
->
 
+
+
+//clear Step by step installing and Setup of Webscoket:-//
+
+
+1:- Installed Laravel WebSockets Package
+>composer require beyondcode/laravel-websockets
+
+2:- Configured .env for Broadcasting
+>BROADCAST_DRIVER=pusher
+ QUEUE_CONNECTION=redis
+
+3:-Set Up broadcasting.php Config
+>'pusher' => [
+     'driver' => 'pusher',
+     'key' => env('PUSHER_APP_KEY'),
+     'secret' => env('PUSHER_APP_SECRET'),
+     'app_id' => env('PUSHER_APP_ID'),
+     'options' => [
+         'cluster' => env('PUSHER_APP_CLUSTER'),
+         'useTLS' => false,
+         'host' => '127.0.0.1',
+         'port' => 6001,
+         'scheme' => 'http',
+     ],
+ ],
+
+
+4:-Published WebSocket Config
+>php artisan vendor:publish --tag=websockets-config
+
+
+5:-Started the WebSocket Server
+>php artisan websockets:serve
+
+6:-Created a Broadcastable Event
+>class MessageSent implements ShouldBroadcast
+
+7:- Frontend Setup with Laravel Echo & Pusher(inside the Bootrsap/app.js)
+>import Echo from 'laravel-echo';
+ import Pusher from 'pusher-js';
+
+ window.Pusher = Pusher;
+
+ window.Echo = new Echo({
+     broadcaster: 'pusher',
+     key: 'local',
+     cluster: 'mt1',
+     wsHost: window.location.hostname,
+     wsPort: 6001,
+     forceTLS: false,
+     disableStats: true,
+     enabledTransports: ['ws'],
+ });
+
+8:-Listened to Events in JS
+>window.Echo.channel('chat')
+     .listen('.message.sent', (e) => {
+         console.log('✅ Received message from Echo:', e);
+     });
+
+ 9. Triggered Event from Controller
+ >event(new MessageSent($message));
 ________________________________________________________________________________________________________________________________________________________________________
+IMPORTANT:-Laravel Reverb the new Websocket (Old version is"composer require beyondcode/laravel-websockets"abonded )
+1:-. Install Laravel Reverb
+>composer require laravel/reverb
 
+2:-Publish the config
+>php artisan reverb:install
+
+3:-. Set your broadcast driver in .env
+>BROADCAST_CONNECTION=reverb
+
+4:- Start the Reverb WebSocket server
+>php artisan reverb:start
+
+5:-Create an event:...etc

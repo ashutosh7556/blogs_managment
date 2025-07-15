@@ -54,7 +54,7 @@ class PostController extends Controller
              $imagePath = $request->file('image')->store('posts', 'public');
          }
 
-         Post::create([
+         $post = Post::create([
              'title' => $validated['title'],
              'content' => $validated['content'],
              'category_id' => $validated['category_id'],
@@ -62,7 +62,10 @@ class PostController extends Controller
              'image' => $imagePath,
          ]);
 
-         return redirect()->route('posts.index')->with('success', 'Post created successfully!');
+         return response()->json([
+             'message' => 'Post created successfully!',
+             'post' => $post
+         ], 201);
      }
 
 
@@ -106,6 +109,8 @@ class PostController extends Controller
         $this->authorize('delete', $post);
         $post->delete();
 
-        return redirect()->route('posts.index')->with('success', 'Post deleted.');
+        return response()->json([
+                    'message' => 'Post Deleted successfully!',
+                ], 201);
     }
 }

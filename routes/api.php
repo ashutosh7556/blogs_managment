@@ -1,19 +1,50 @@
 <?php
+ use Illuminate\Support\Facades\Route;
+ use App\Http\Controllers\Api\AuthController;
+ use App\Http\Controllers\Api\PostController;
+ use App\Http\Controllers\Api\CategoryController;
+ use App\Http\Controllers\Api\FeedbackController;
+ use App\Http\Controllers\ProfileController;
+ use App\Http\Controllers\UserController;
+ use App\Http\Controllers\Api\MessageController;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+ // 🟢 Public Routes
+ Route::post('/login', [AuthController::class, 'login']);
+ Route::post('/register', [AuthController::class, 'register']);
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+ // 🔐 Protected Routes (JWT Token Required)
+ Route::middleware('auth:api')->group(function () {
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+     Route::get('/me', fn () => auth()->user());
+     Route::post('/logout', [AuthController::class, 'logout']);
+
+     // 📬 Messages
+     Route::get('/messages', [MessageController::class, 'fetch']);
+     Route::post('/send-message', [MessageController::class, 'send']);
+
+     // 📝 Feedback
+     Route::apiResource('feedback', FeedbackController::class)->only(['store', 'destroy', 'index', 'show']);
+
+     // 👤 Profile
+     Route::get('/profile', [ProfileController::class, 'edit']);
+     Route::put('/profile', [ProfileController::class, 'update']);
+     Route::delete('/profile', [ProfileController::class, 'destroy']);
+
+     // 🧑‍💼 Post Management
+     Route::middleware('role:admin,author')->group(function () {
+         Route::apiResource('posts', PostController::class)->except(['create', 'edit']);
+     });
+
+     // 📂 View categories (any authenticated user)
+     Route::get('/categories', [CategoryController::class, 'index']);
+
+     // 🛡 Admin-only
+     Route::middleware('role:admin')->group(function () {
+         Route::apiResource('categories', CategoryController::class)->except(['index']);
+
+         Route::prefix('admin')->group(function () {
+             Route::get('/users', [UserController::class, 'index']);
+             Route::post('/users/{user}/roles', [UserController::class, 'assignRole']);
+         });
+     });
+ });
